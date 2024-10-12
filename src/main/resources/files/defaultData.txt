@@ -1,0 +1,43 @@
+CREATE TABLE PROJECT (ID BIGINT PRIMARY KEY, NAME VARCHAR(100) NOT NULL, DESCRIPTION VARCHAR(255), START_DATE TIMESTAMP, BUDGET NUMERIC(15, 2), COMPLETED BOOLEAN DEFAULT FALSE, CREATED_ON TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UPDATED_ON TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+CREATE TABLE EXPENSE ()
+CREATE TABLE CATEGORY ()
+CREATE TABLE PAYMENT_METHOD ()
+INSERT INTO categories (name, description) VALUES ('Labor Costs', 'Expenses related to employee salaries and contract work');
+INSERT INTO categories (name, description) VALUES ('Materials and Supplies', 'Costs of materials and supplies needed for projects');
+INSERT INTO categories (name, description) VALUES ('Travel Expenses', 'Expenses incurred for travel purposes');
+INSERT INTO categories (name, description) VALUES ('Utilities', 'Costs of utilities like electricity and water');
+INSERT INTO categories (name, description) VALUES ('Marketing and Advertising', 'Expenses related to marketing and advertising activities');
+INSERT INTO categories (name, description) VALUES ('Software and Tools', 'Costs of software licenses and tools used for projects');
+INSERT INTO categories (name, description) VALUES ('Miscellaneous', 'Other expenses that do not fit into specific categories');
+INSERT INTO categories (name, description) VALUES ('Project Management', 'Consultancy and management-related expenses');
+INSERT INTO categories (name, description) VALUES ('Training and Development', 'Costs related to employee training and professional development');
+INSERT INTO categories (name, description) VALUES ('Equipment Rental', 'Expenses for renting tools and equipment for projects');
+INSERT INTO categories (name, description) VALUES ('Office Supplies', 'Costs for general office supplies and materials');
+INSERT INTO categories (name, description) VALUES ('Contractor Fees', 'Payments made to independent contractors for services');
+INSERT INTO categories (name, description) VALUES ('Insurance', 'Costs for various types of insurance related to the project');
+INSERT INTO categories (name, description) VALUES ('Research and Development', 'Expenses related to research and new product development');
+INSERT INTO categories (name, description) VALUES ('Licensing Fees', 'Costs for obtaining necessary licenses for software or services');
+INSERT INTO categories (name, description) VALUES ('Employee Benefits', 'Costs associated with employee benefits and perks');
+INSERT INTO categories (name, description) VALUES ('Quality Assurance', 'Expenses for quality checks and testing processes');
+INSERT INTO categories (name, description) VALUES ('Safety Equipment', 'Costs for safety gear and equipment for project teams');
+INSERT INTO categories (name, description) VALUES ('Client Entertainment', 'Expenses incurred for entertaining clients and stakeholders');
+INSERT INTO categories (name, description) VALUES ('Communications', 'Costs for communication tools and services, such as phone and internet');
+INSERT INTO categories (name, description) VALUES ('Travel Accommodations', 'Costs for lodging and accommodations during travel');
+INSERT INTO categories (name, description) VALUES ('Office Rent', 'Monthly rent for office space used in the project');
+INSERT INTO categories (name, description) VALUES ('Freight and Shipping', 'Costs for shipping materials and supplies');
+INSERT INTO categories (name, description) VALUES ('Contingency Funds', 'Reserves for unexpected project costs');
+INSERT INTO payment_methods (name, description) VALUES ('Company Credit Card', 'Company-issued credit card for expenses');
+INSERT INTO payment_methods (name, description) VALUES ('Personal Credit Card', 'Personal credit card used for business expenses');
+INSERT INTO payment_methods (name, description) VALUES ('Company Debit Card', 'Company-issued debit card for expenses');
+INSERT INTO payment_methods (name, description) VALUES ('Personal Debit Card', 'Personal debit card used for business expenses');
+INSERT INTO payment_methods (name, description) VALUES ('ACH Transfer', 'Automated Clearing House transfer for payments');
+INSERT INTO payment_methods (name, description) VALUES ('Wire Transfer', 'Direct wire transfer for payment');
+INSERT INTO payment_methods (name, description) VALUES ('Cash', 'Physical cash used for transactions');
+INSERT INTO payment_methods (name, description) VALUES ('Check', 'Payments made via company checks');
+INSERT INTO payment_methods (name, description) VALUES ('PayPal', 'Payment made through PayPal account');
+INSERT INTO payment_methods (name, description) VALUES ('Venmo', 'Payments made via Venmo');
+INSERT INTO payment_methods (name, description) VALUES ('Google Pay', 'Payments made through Google Pay');
+INSERT INTO payment_methods (name, description) VALUES ('Apple Pay', 'Payments made through Apple Pay');
+INSERT INTO payment_methods (name, description) VALUES ('Invoice', 'Direct billing and invoicing services');
+INSERT INTO payment_methods (name, description) VALUES ('Purchase Order', 'Procurement process payments');
+
