@@ -1,0 +1,83 @@
+CREATE TABLE IF NOT EXISTS PROJECT (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    NAME VARCHAR(100) NOT NULL,
+    DESCRIPTION VARCHAR(255),
+    START_DATE TIMESTAMP NOT NULL,
+    BUDGET NUMERIC(15, 2),
+    COMPLETED BOOLEAN DEFAULT FALSE,
+    CREATED_ON TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_ON TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS CATEGORY (
+    ID BIGINT PRIMARY KEY,
+    NAME VARCHAR(100),
+    DESCRIPTION VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS PAYMENT_METHOD (
+    ID BIGINT PRIMARY KEY,
+    NAME VARCHAR(100),
+    DESCRIPTION VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS EXPENSE (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    PROJECT_ID BIGINT,
+    CATEGORY_ID BIGINT,
+    PAYMENT_METHOD_ID BIGINT,
+    DESCRIPTION VARCHAR(255),
+    AMOUNT NUMERIC(15, 2) NOT NULL,
+    CREATED_ON TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_ON TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    TRANSACTION_DATE TIMESTAMP,
+    FOREIGN KEY (PROJECT_ID) REFERENCES PROJECT(ID) ON DELETE CASCADE,
+    FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORY(ID),
+    FOREIGN KEY (PAYMENT_METHOD_ID) REFERENCES PAYMENT_METHOD(ID)
+);
+
+MERGE INTO CATEGORY(ID, NAME, DESCRIPTION) KEY(ID) VALUES
+    (1, 'Labor Costs', 'Expenses related to employee salaries and contract work'),
+    (2, 'Materials and Supplies', 'Costs of materials and supplies needed for projects'),
+    (3, 'Travel Expenses', 'Expenses incurred for travel purposes'),
+    (4, 'Utilities', 'Costs of utilities like electricity and water'),
+    (5, 'Marketing and Advertising', 'Expenses related to marketing and advertising activities'),
+    (6, 'Software and Tools', 'Costs of software licenses and tools used for projects'),
+    (7, 'Miscellaneous', 'Other expenses that do not fit into specific categories'),
+    (8, 'Project Management', 'Consultancy and management-related expenses'),
+    (9, 'Training and Development', 'Costs related to employee training and professional development'),
+    (10, 'Equipment Rental', 'Expenses for renting tools and equipment for projects'),
+    (11, 'Office Supplies', 'Costs for general office supplies and materials'),
+    (12, 'Contractor Fees', 'Payments made to independent contractors for services'),
+    (13, 'Insurance', 'Costs for various types of insurance related to the project'),
+    (14, 'Research and Development', 'Expenses related to research and new product development'),
+    (15, 'Licensing Fees', 'Costs for obtaining necessary licenses for software or services'),
+    (16, 'Employee Benefits', 'Costs associated with employee benefits and perks'),
+    (17, 'Quality Assurance', 'Expenses for quality checks and testing processes'),
+    (18, 'Safety Equipment', 'Costs for safety gear and equipment for project teams'),
+    (19, 'Client Entertainment', 'Expenses incurred for entertaining clients and stakeholders'),
+    (20, 'Communications', 'Costs for communication tools and services, such as phone and internet'),
+    (21, 'Travel Accommodations', 'Costs for lodging and accommodations during travel'),
+    (22, 'Office Rent', 'Monthly rent for office space used in the project'),
+    (23, 'Freight and Shipping', 'Costs for shipping materials and supplies'),
+    (24, 'Contingency Funds', 'Reserves for unexpected project costs');
+
+
+MERGE INTO PAYMENT_METHOD(ID, NAME, DESCRIPTION) KEY(ID) VALUES
+    (1, 'Company Credit Card', 'Company-issued credit card for expenses'),
+    (2, 'Personal Credit Card', 'Personal credit card used for business expenses'),
+    (3, 'Company Debit Card', 'Company-issued debit card for expenses'),
+    (4, 'Personal Debit Card', 'Personal debit card used for business expenses'),
+    (5, 'ACH Transfer', 'Automated Clearing House transfer for payments'),
+    (6, 'Wire Transfer', 'Direct wire transfer for payment'),
+    (7, 'Cash', 'Physical cash used for transactions'),
+    (8, 'Check', 'Payments made via company checks'),
+    (9, 'PayPal', 'Payment made through PayPal account'),
+    (10, 'Venmo', 'Payments made via Venmo'),
+    (11, 'Google Pay', 'Payments made through Google Pay'),
+    (12, 'Apple Pay', 'Payments made through Apple Pay'),
+    (13, 'Invoice', 'Direct billing and invoicing services'),
+    (14, 'Purchase Order', 'Procurement process payments');
+
+
+
