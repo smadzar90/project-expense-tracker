@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connector {
-    private static final String H2_PATH = "storage/h2/project_expenses_db";
+    private static final String H2_PATH = "./storage/h2/project_expenses_db";
     public Connection connection;
 
     public Connector() {
@@ -14,6 +14,7 @@ public class Connector {
 
     public Connector(String path) {
         createConnection(path);
+        Seeder.executeDefaultQueries(connection);
     }
 
     private void createConnection(String path) {
@@ -22,7 +23,7 @@ public class Connector {
             connection = DriverManager.getConnection(url);
             System.out.println("Connection to db established!");
         } catch (SQLException e) {
-            System.out.println("Cannot create db-connection!" + e.getMessage());
+            throw new RuntimeException("Database connection failed.", e);
         }
     }
 
@@ -31,7 +32,7 @@ public class Connector {
             try {
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error occurred closing the connection!" + e.getMessage());
+                System.out.println("Error occurred closing the connection." + e.getMessage());
             }
         }
     }

@@ -16,21 +16,27 @@ public class Project {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
-    public Project(long Id, String name, String description, LocalDate startDate, BigDecimal budget) {
-        this.Id = Id;
+    public Project(String name, String description, LocalDate startDate, BigDecimal budget) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.budget = budget;
     }
 
-    public Project(long Id, String name, String description, LocalDate startDate, BigDecimal budget, boolean completed) {
-        this.Id = Id;
+    public Project(String name, String description, LocalDate startDate, BigDecimal budget, boolean completed) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.budget = budget;
         this.completed = completed;
+    }
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
     }
 
     @Override
