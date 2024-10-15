@@ -19,4 +19,6 @@ public class PETracker extends Connector {
         projectService = new ProjectService(this.connection);
         expenseService = new ExpenseService(this.connection);
     }
+
+    //add indexes to db columns...
 }

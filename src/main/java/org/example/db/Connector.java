@@ -23,7 +23,7 @@ public class Connector {
             connection = DriverManager.getConnection(url);
             System.out.println("Connection to db established!");
         } catch (SQLException e) {
-            throw new RuntimeException("Database connection failed.", e);
+            throw new RuntimeException("Database connection failed. " + e.getMessage());
         }
     }
 
@@ -32,7 +32,7 @@ public class Connector {
             try {
                 connection.close();
             } catch (SQLException e) {
-                System.out.println("Error occurred closing the connection." + e.getMessage());
+                throw new RuntimeException("Database connection failed. " + e.getMessage());
             }
         }
     }
