@@ -2,25 +2,22 @@ package org.example.repository;
 
 import org.example.annotations.Id;
 
-import javax.swing.text.html.parser.Entity;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class CrudRepository<T> {
-    private Connection connection;
+    private final Connection connection;
 
     public CrudRepository(Connection connection) {
         this.connection = connection;
     }
 
-    public void saveAll(Set<T> entities) {
-        entities.forEach(this::save);
+    public List<Optional<T>> saveAll(Set<T> entities) {
+        return entities.stream().map(this::save).collect(Collectors.toList());
     }
 
-    public T save(T entity) {
+    public Optional<T> save(T entity) {
         T entityToReturn;
         if(!isIdPresent(entity)) {
             try {
@@ -41,15 +38,41 @@ public abstract class CrudRepository<T> {
             entityToReturn = update(entity);
         }
         postSaveExecute(entity);
-        return entityToReturn;
+        return Optional.ofNullable(entityToReturn);
     }
 
-    public List<T> findAll() {
-        return null;
+    public Optional<T> findByID(long id) {
+        try {
+            PreparedStatement pStatement = connection.prepareStatement(getFindSQL(), PreparedStatement.RETURN_GENERATED_KEYS);
+            pStatement.setLong(1, id);
+            ResultSet rs = pStatement.executeQuery();
+
+            return mapResultSetToEntities(rs).getFirst();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
+        }
     }
 
-    public T findByID(long id) {
-        return null;
+    public List<Optional<T>> findAll() {
+        try {
+            PreparedStatement pStatement = connection.prepareStatement(getFindAllSQL());
+            ResultSet rs = pStatement.executeQuery();
+
+            return mapResultSetToEntities(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
+        }
+    }
+
+    public List<Optional<T>> findAllByForeignKey(String foreignKey, long id) {
+        try {
+            PreparedStatement pStatement = connection.prepareStatement(getFindAllByForeignKeySQL(foreignKey, id));
+            ResultSet rs = pStatement.executeQuery();
+
+            return mapResultSetToEntities(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
+        }
     }
 
     public T update(T entity) {
@@ -61,7 +84,6 @@ public abstract class CrudRepository<T> {
     }
 
     public void delete(Long... ids) {
-
     }
 
     private boolean isIdPresent(T entity) {
@@ -90,7 +112,12 @@ public abstract class CrudRepository<T> {
                 });
     }
 
-    abstract String getSaveSQL();
+    abstract List<Optional<T>> mapResultSetToEntities(ResultSet rs) throws SQLException;
+    abstract T mapToEntity(ResultSet rs);
     abstract void mapEntityToStatement(PreparedStatement statement, T entity);
     abstract void postSaveExecute(T entity);
+    abstract String getFindSQL();
+    abstract String getSaveSQL();
+    abstract String getFindAllSQL();
+    abstract String getFindAllByForeignKeySQL(String foreignKey, long id);
 }

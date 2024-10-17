@@ -37,6 +37,7 @@ public class Seeder {
             try {
                 Statement statement = connection.createStatement();
                 statement.execute(q);
+                connection.commit();
             } catch (SQLException e) {
                 throw new RuntimeException("An error occurred while executing default queries.", e);
             }

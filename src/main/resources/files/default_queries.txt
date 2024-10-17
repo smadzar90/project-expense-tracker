@@ -79,5 +79,3 @@ MERGE INTO PAYMENT_METHOD(ID, NAME, DESCRIPTION) KEY(ID) VALUES
     (13, 'Invoice', 'Direct billing and invoicing services'),
     (14, 'Purchase Order', 'Procurement process payments');
 
-
-
