@@ -30,4 +30,16 @@ public class BaseRepositoryTest {
         categoryRepository = new CategoryRepository(connection);
         paymentRepository = new PaymentRepository(connection);
     }
+
+    @AfterAll
+    static void tearDown() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
+
+    @AfterEach
+    void rollback() throws SQLException {
+        connection.rollback();
+    }
 }

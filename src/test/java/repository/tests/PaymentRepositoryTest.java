@@ -1,51 +1,33 @@
 package repository.tests;
 
-import org.example.db.Seeder;
-import org.example.model.Category;
 import org.example.model.PaymentMethod;
-import org.example.repository.CategoryRepository;
-import org.example.repository.PaymentRepository;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PaymentRepositoryTest {
-    private static Connection connection;
-    private static PaymentRepository repo;
+public class PaymentRepositoryTest extends BaseRepositoryTest {
 
     @BeforeAll
     static void setUp() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:h2:/Users/stipanmadzar/Desktop/db_test");
-        connection.setAutoCommit(false);
-        Seeder.executeDefaultQueries(connection);
-        repo = new PaymentRepository(connection);
-    }
-
-    @AfterAll
-    static void tearDown() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
+        setUpBase();
     }
 
     @Test
     void canGetPaymentByID() {
-        PaymentMethod payment = repo.findByID(2);
-        assertThat(payment.getId()).isEqualTo(2);
-        assertThat(payment.getName()).isEqualTo("Personal Credit Card");
+        Optional<PaymentMethod> payment = paymentRepository.findByID(2);
+        assertThat(payment).isPresent();
+        assertThat(payment.get().getId()).isEqualTo(2);
+        assertThat(payment.get().getName()).isEqualTo("Personal Credit Card");
     }
 
     @Test
     void cannotGetPaymentByInvalidID() {
-        PaymentMethod payment1 = repo.findByID(55);
-        PaymentMethod payment2 = repo.findByID(-2);
-        assertThat(payment1).isNull();
-        assertThat(payment2).isNull();
+        Optional<PaymentMethod> payment1 = paymentRepository.findByID(55);
+        Optional<PaymentMethod> payment2 = paymentRepository.findByID(-2);
+        assertThat(payment1).isEmpty();
+        assertThat(payment2).isEmpty();
     }
 }

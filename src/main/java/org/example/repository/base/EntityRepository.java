@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public abstract class EntityRepository<T> {
     private final Connection connection;
@@ -12,15 +13,15 @@ public abstract class EntityRepository<T> {
         this.connection = connection;
     }
 
-    public T findByID(long id) {
+    public Optional<T> findByID(long id) {
         try {
             PreparedStatement pStatement = connection.prepareStatement(getFindSQL());
             pStatement.setLong(1, id);
             ResultSet rs = pStatement.executeQuery();
             if(rs.next()) {
-                return mapResultSetToEntity(rs);
+                return Optional.ofNullable(mapResultSetToEntity(rs));
             }
-            return null;
+            return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
         }

@@ -8,9 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PaymentRepository extends EntityRepository<PaymentMethod> {
-    private final String FIND_SQL = """
-            SELECT ID AS PM_ID, NAME AS PM_NAME, DESCRIPTION AS PM_DESCRIPTION FROM PAYMENT_METHOD WHERE ID=?
-            """;
+    private final String FIND_SQL = "SELECT ID AS PM_ID, NAME AS PM_NAME, DESCRIPTION AS PM_DESCRIPTION FROM PAYMENT_METHOD WHERE ID=?";
+
     public PaymentRepository(Connection connection) {
         super(connection);
     }

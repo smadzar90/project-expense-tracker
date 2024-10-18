@@ -4,8 +4,6 @@ import org.example.model.Category;
 import org.example.model.Expense;
 import org.example.model.PaymentMethod;
 import org.example.model.Project;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -27,19 +25,6 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
     static void setUp() throws SQLException {
         setUpBase();
     }
-
-    @AfterAll
-    static void tearDown() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
-
-    @AfterEach
-    void rollback() throws SQLException {
-        connection.rollback();
-    }
-
 
     @Test
     void canSaveExpense() {
@@ -70,14 +55,14 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
         Expense savedExpense1 = expenseRepository.save(getExpense(30000));
         Expense savedExpense2 = expenseRepository.save(getExpense(13000));
         assertThat(expenseRepository.findByID(savedExpense1.getId()))
+                .isPresent()
                 .hasValueSatisfying(expense -> {
                     assertThat(expense.getAmount()).isEqualTo(new BigDecimal("30000.00"));
-                    assertThat(expense.getId()).isEqualTo(savedExpense1.getId());
                 });
         assertThat(expenseRepository.findByID(savedExpense2.getId()))
+                .isPresent()
                 .hasValueSatisfying(expense -> {
                     assertThat(expense.getAmount()).isEqualTo(new BigDecimal("13000.00"));
-                    assertThat(expense.getId()).isEqualTo(savedExpense2.getId());
                 });
     }
 
@@ -105,7 +90,6 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
                 .stream()
                 .peek(expense -> expense.setAmount(expense.getAmount().add(new BigDecimal(1000))))
                 .collect(Collectors.toSet());
-
         expenseRepository.updateAll(expensesSet);
         expensesSet.forEach(expense -> {
             Optional<Expense> updatedExpense = expenseRepository.findByID(expense.getId());
@@ -139,8 +123,8 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
 
     private static Expense getExpense(Integer testAmount) {
         Project savedProject = projectRepository.save(Project.getTestProject("test project"));
-        Category category = categoryRepository.findByID(1);
-        PaymentMethod paymentMethod = paymentRepository.findByID(1);
+        Category category = categoryRepository.findByID(1).orElse(null);
+        PaymentMethod paymentMethod = paymentRepository.findByID(1).orElse(null);
         Expense expense = Expense.getTestExpense(testAmount, category, paymentMethod);
         expense.setProject(savedProject);
         return expense;

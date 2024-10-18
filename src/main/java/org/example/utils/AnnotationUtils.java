@@ -5,6 +5,7 @@ import org.example.annotations.Id;
 import java.util.Arrays;
 
 public class AnnotationUtils<T> {
+
     protected boolean isIdPresent(T entity) {
         return Arrays.stream(entity.getClass().getDeclaredFields())
                 .filter(f -> f.isAnnotationPresent(Id.class))
@@ -13,7 +14,7 @@ public class AnnotationUtils<T> {
                         f.setAccessible(true);
                         return f.get(entity) != null;
                     } catch (IllegalAccessException e) {
-                        throw new RuntimeException("Failed to access field: " +  e.getMessage());
+                        throw new RuntimeException("Error occurred while accessing the field: " +  e.getMessage());
                     }
                 });
     }

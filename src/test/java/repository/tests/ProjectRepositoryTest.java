@@ -4,7 +4,6 @@ import org.example.model.Category;
 import org.example.model.Expense;
 import org.example.model.PaymentMethod;
 import org.example.model.Project;
-import org.example.repository.ProjectRepository;
 import org.junit.jupiter.api.*;
 import java.sql.SQLException;
 import java.util.*;
@@ -14,23 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProjectRepositoryTest extends BaseRepositoryTest {
+
     @BeforeAll
     static void setUp() throws SQLException {
         setUpBase();
     }
-
-    @AfterAll
-    static void tearDown() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
-
-    @AfterEach
-    void rollback() throws SQLException {
-        connection.rollback();
-    }
-
 
     @Test
     void canSaveProject() {
@@ -89,7 +76,6 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
     void canFindProjectByID() {
         Set<Project> projects = getTestProjects();
         List<Project> savedProjects = projectRepository.saveAll(projects);
-
         savedProjects.forEach(p -> {
             Optional<Project> project = projectRepository.findByID(p.getId());
             assertThat(project).isPresent();
@@ -110,7 +96,6 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
                     assertThat(p.getName()).isEqualTo("New name for p1");
                     assertThat(p.getCompleted()).isEqualTo(true);
                 });
-
     }
 
     @Test
@@ -167,9 +152,8 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
 
     private static Project getTestProjectWithExpenses(String name, int addAmount) {
         Project project = Project.getTestProject(name);
-        Category category = categoryRepository.findByID(1);
-        PaymentMethod paymentMethod = paymentRepository.findByID(1);
-
+        Category category = categoryRepository.findByID(1).orElse(null);
+        PaymentMethod paymentMethod = paymentRepository.findByID(1).orElse(null);
         project.addExpense(Expense.getTestExpense(55000, category, paymentMethod));
         project.addExpense(Expense.getTestExpense(45112, category, paymentMethod));
         project.addExpense(Expense.getTestExpense(124424, category, paymentMethod));

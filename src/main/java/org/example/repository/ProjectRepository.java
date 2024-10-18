@@ -43,14 +43,13 @@ public class ProjectRepository extends CrudRepository<Project> {
         while(rs.next()) {
             Project project = mapToEntity(rs);
             Expense expense = mapToExpense(rs, categoryRepository, paymentRepository);
-
             if(projectExpenseMap.containsKey(project)) {
                 projectExpenseMap.get(project).add(expense);
             }
             projectExpenseMap.computeIfAbsent(project, k -> new ArrayList<>()).add(expense);
         }
-        projectExpenseMap.forEach((key, value) -> value.forEach(key::addExpense));
 
+        projectExpenseMap.forEach((key, value) -> value.forEach(key::addExpense));
         return new ArrayList<>(projectExpenseMap.keySet());
     }
 
