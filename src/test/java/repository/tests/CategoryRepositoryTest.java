@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CategoryRepositoryTest extends Connector {
+public class CategoryRepositoryTest {
     private static Connection connection;
     private static CategoryRepository repo;
 

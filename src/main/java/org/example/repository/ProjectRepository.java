@@ -1,13 +1,14 @@
 package org.example.repository;
 
-import org.example.EntityMapper;
 import org.example.model.Expense;
 import org.example.model.Project;
+import org.example.repository.base.CrudRepository;
 
 import java.sql.*;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static org.example.utils.EntityMapperUtils.mapToExpense;
+import static org.example.utils.EntityMapperUtils.mapToProject;
 
 public class ProjectRepository extends CrudRepository<Project> {
     private final CategoryRepository categoryRepository;
@@ -24,6 +25,9 @@ public class ProjectRepository extends CrudRepository<Project> {
         LEFT JOIN CATEGORY c ON e.CATEGORY_ID = c.ID 
         LEFT JOIN PAYMENT_METHOD pm ON e.PAYMENT_METHOD_ID = pm.ID;
         """;
+    private final String FIND_BY_ID_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 2) + " WHERE p.ID = ?";
+    private final String UPDATE_SQL = "UPDATE PROJECT SET NAME=?, DESCRIPTION=?, START_DATE=?, BUDGET=?, COMPLETED=?  WHERE ID=%d";
+    private final String DELETE_SQL = "DELETE FROM PROJECT WHERE ID = ?";
 
     public ProjectRepository(Connection connection) {
         super(connection);
@@ -33,12 +37,12 @@ public class ProjectRepository extends CrudRepository<Project> {
     }
 
     @Override
-    List<Optional<Project>> mapResultSetToEntities(ResultSet rs) throws SQLException {
+    protected List<Project> mapResultSetToEntities(ResultSet rs) throws SQLException {
         Map<Project, List<Expense>> projectExpenseMap = new HashMap<>();
 
         while(rs.next()) {
             Project project = mapToEntity(rs);
-            Expense expense = EntityMapper.mapToExpense(rs, categoryRepository, paymentRepository);
+            Expense expense = mapToExpense(rs, categoryRepository, paymentRepository);
 
             if(projectExpenseMap.containsKey(project)) {
                 projectExpenseMap.get(project).add(expense);
@@ -46,16 +50,17 @@ public class ProjectRepository extends CrudRepository<Project> {
             projectExpenseMap.computeIfAbsent(project, k -> new ArrayList<>()).add(expense);
         }
         projectExpenseMap.forEach((key, value) -> value.forEach(key::addExpense));
-        return projectExpenseMap.keySet().stream().map(Optional::of).collect(Collectors.toList());
+
+        return new ArrayList<>(projectExpenseMap.keySet());
     }
 
     @Override
-    Project mapToEntity(ResultSet rs) {
-        return EntityMapper.mapToProject(rs);
+    protected Project mapToEntity(ResultSet rs) {
+        return mapToProject(rs);
     }
 
     @Override
-    void mapEntityToStatement(PreparedStatement statement, Project project) {
+    protected void mapEntityToStatement(PreparedStatement statement, Project project) {
         try {
             statement.setString(1, project.getName());
             statement.setString(2, project.getDescription());
@@ -72,32 +77,49 @@ public class ProjectRepository extends CrudRepository<Project> {
     }
 
     @Override
-    void postSaveExecute(Project project) {
-        if(project.isCompleted() == null) {
-            project.setCompleted(false);
-        } if(!project.getExpenses().isEmpty()) {
-            project.getExpenses().forEach(e -> e.setProject(project));
-            expenseRepository.saveAll(project.getExpenses());
+    protected void postSaveExecute(Project project) {
+        setProjectCompletionStatus(project);
+        if (!project.getExpenses().isEmpty()) {
+            saveProjectExpenses(project);
         }
     }
 
-    @Override
-    String getFindSQL() {
-        return "";
+    private void setProjectCompletionStatus(Project project) {
+        project.setCompleted(project.isCompleted() != null && project.isCompleted());
+    }
+
+    private void saveProjectExpenses(Project project) {
+        project.getExpenses().forEach(e -> e.setProject(project));
+        expenseRepository.saveAll(project.getExpenses());
     }
 
     @Override
-    String getSaveSQL() {
+    protected String getFindSQL() {
+        return FIND_BY_ID_SQL;
+    }
+
+    @Override
+    protected String getSaveSQL() {
         return SAVE_SQL;
     }
 
     @Override
-    String getFindAllSQL() {
+    protected String getFindAllSQL() {
         return FIND_ALL_SQL;
     }
 
     @Override
-    String getFindAllByForeignKeySQL(String foreignKey, long id) {
+    protected String getFindAllByForeignKeySQL(String foreignKey) {
         return "";
+    }
+
+    @Override
+    protected String getUpdateSQL(Project project) {
+        return String.format(UPDATE_SQL, project.getId());
+    }
+
+    @Override
+    protected String getDeleteSQL() {
+        return DELETE_SQL;
     }
 }

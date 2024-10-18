@@ -1,11 +1,11 @@
 package org.example.repository;
 
 import org.example.model.Category;
-import org.example.model.PaymentMethod;
+import org.example.repository.base.EntityRepository;
 
 import java.sql.*;
 
-public class CategoryRepository extends EntityRepository<Category>{
+public class CategoryRepository extends EntityRepository<Category> {
     private final String FIND_SQL = """
             SELECT ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?
             """;
@@ -26,7 +26,7 @@ public class CategoryRepository extends EntityRepository<Category>{
     }
 
     @Override
-    String getFindSQL() {
+    protected String getFindSQL() {
         return FIND_SQL;
     }
 }

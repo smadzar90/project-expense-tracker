@@ -1,4 +1,4 @@
-package org.example;
+package org.example.utils;
 
 import org.example.model.*;
 
@@ -7,10 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.example.repository.*;
 
-import java.sql.Timestamp;
 import java.time.ZoneId;
 
-public class EntityMapper {
+public class EntityMapperUtils {
     public static Project mapToProject(ResultSet rs) {
         try {
             Project project = new Project(

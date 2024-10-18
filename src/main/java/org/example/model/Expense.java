@@ -39,18 +39,25 @@ public class Expense {
         this.paymentMethod = paymentMethod;
     }
 
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public void setUpdatedOn(LocalDateTime updatedOn) {
-        this.updatedOn = updatedOn;
+    public Expense(Project project, Category category, PaymentMethod paymentMethod, String description, BigDecimal amount, LocalDate transactionDate) {
+        this(description, amount, transactionDate);
+        this.project = project;
+        this.category = category;
+        this.paymentMethod = paymentMethod;
     }
 
     public Expense(String description, BigDecimal amount, LocalDate transactionDate) {
         this.description = description;
         this.amount = amount;
         this.transactionDate = transactionDate;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
     public Category getCategory() {

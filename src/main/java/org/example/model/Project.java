@@ -85,7 +85,7 @@ public class Project {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -103,6 +103,10 @@ public class Project {
                 ", budget=" + budget +
                 ", completed=" + completed +
                 '}';
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

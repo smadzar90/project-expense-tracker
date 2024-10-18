@@ -1,4 +1,4 @@
-package org.example.repository;
+package org.example.repository.base;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +26,6 @@ public abstract class EntityRepository<T> {
         }
     }
 
-    abstract String getFindSQL();
-    abstract T mapResultSetToEntity(ResultSet rs);
+    protected abstract String getFindSQL();
+    protected abstract T mapResultSetToEntity(ResultSet rs);
 }

@@ -1,10 +1,9 @@
 package org.example.repository;
 
-import org.example.model.Category;
 import org.example.model.PaymentMethod;
+import org.example.repository.base.EntityRepository;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -28,7 +27,7 @@ public class PaymentRepository extends EntityRepository<PaymentMethod> {
     }
 
     @Override
-    String getFindSQL() {
+    protected String getFindSQL() {
         return FIND_SQL;
     }
 }
