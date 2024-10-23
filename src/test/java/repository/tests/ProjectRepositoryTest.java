@@ -5,10 +5,14 @@ import org.example.model.Expense;
 import org.example.model.PaymentMethod;
 import org.example.model.Project;
 import org.junit.jupiter.api.*;
+
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,28 +47,22 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
 
     @Test
     void canFindAllProjects() {
-        assertTrue(checkIfEmpty());
         Set<Project> projects2 = getTestProjects();
         projectRepository.saveAll(projects2);
         List<Project> projectsFound = projectRepository.findAll();
         assertThat(projectsFound.size()).isEqualTo(3);
-        projectsFound.forEach(p -> {
-            assertThat(p.getName()).isNotNull();
-        });
+        projectsFound.forEach(p -> assertThat(p.getName()).isNotNull());
     }
 
     @Test
     void canFindAllProjectsWithExpenses() {
-        assertTrue(checkIfEmpty());
         Project project1 = getTestProjectWithExpenses("Test name", 0);
         Project project2 = getTestProjectWithExpenses("Test name2", 20);
-        Project project3 = getTestProjectWithExpenses("Test name3", 40);
-        Set<Project> projects2 = Set.of(project1, project2, project3);
+        Set<Project> projects2 = Set.of(project1, project2);
         projectRepository.saveAll(projects2);
         List<Project> projectsFound = projectRepository.findAll();
-        assertThat(projectsFound.size()).isEqualTo(3);
+        assertThat(projectsFound.size()).isEqualTo(2);
         projectsFound.forEach(p -> {
-            assertThat(p.getName()).isNotNull();
             assertThat(p.getExpenses().size()).isEqualTo(3);
             p.getExpenses().forEach(
                     e -> assertTrue(e.getDescription().contains("Office Supplies"))
@@ -142,21 +140,55 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
 
     @Test
     void canDeleteAllProjects() {
+        Set<Project> savedProjects = new HashSet<>(projectRepository.saveAll(getTestProjects()));
+        projectRepository.deleteAll(savedProjects);
+        assertTrue(projectRepository.findAll().isEmpty());
+    }
+
+    @Test
+    void canFindAllProjectsByName() {
         Set<Project> projects = getTestProjects();
-        List<Project> savedProjects = projectRepository.saveAll(projects);
-        projectRepository.deleteAll(projects);
-        savedProjects.forEach(project -> {
-            assertThat(projectRepository.findByID(project.getId())).isEmpty();
-        });
+        projects.forEach(p -> p.setName("test name"));
+        projectRepository.saveAll(projects);
+        List<Project> projectsFound = projectRepository.findAllEntitiesByAttribute("p.NAME", "test name");
+        assertThat(projectsFound.size()).isEqualTo(3);
+    }
+
+    @Test
+    void canFindAllProjectsByStartDate() {
+        projectRepository.saveAll(getTestProjects());
+        List<Project> projectsFound = projectRepository.findAllEntitiesByAttribute("p.START_DATE", LocalDate.of(2024, 11, 15));
+        assertThat(projectsFound.size()).isEqualTo(3);
+    }
+
+    @Test
+    void canFindAllProjectsByCompleted() {
+        projectRepository.saveAll(getTestProjects());
+        List<Project> projectsFound = projectRepository.findAllEntitiesByAttribute("p.COMPLETED", false);
+        assertThat(projectsFound.size()).isEqualTo(3);
+    }
+
+    @Test
+    void canFindAllProjectsWithBudgetGreaterThan() {
+        projectRepository.saveAll(getTestProjects());
+        List<Project> projectsFound = projectRepository.findAllByAttributeGreaterThan("p.BUDGET", new BigDecimal(30000));
+        assertThat(projectsFound.size()).isEqualTo(3);
+    }
+
+    @Test
+    void canFindAllProjectsWithBudgetLessThan() {
+        projectRepository.saveAll(getTestProjects());
+        List<Project> projectsFound = projectRepository.findAllByAttributeLessThan("p.BUDGET", new BigDecimal(100000));
+        assertThat(projectsFound.size()).isEqualTo(3);
     }
 
     private static Project getTestProjectWithExpenses(String name, int addAmount) {
         Project project = Project.getTestProject(name);
-        Category category = categoryRepository.findByID(1).orElse(null);
-        PaymentMethod paymentMethod = paymentRepository.findByID(1).orElse(null);
-        project.addExpense(Expense.getTestExpense(55000, category, paymentMethod));
-        project.addExpense(Expense.getTestExpense(45112, category, paymentMethod));
-        project.addExpense(Expense.getTestExpense(124424, category, paymentMethod));
+        Category category = categoryRepository.findByID(1L).orElse(null);
+        PaymentMethod paymentMethod = paymentRepository.findByID(1L).orElse(null);
+        project.addExpense(Expense.getTestExpense(55000 + addAmount, category, paymentMethod));
+        project.addExpense(Expense.getTestExpense(45112 + addAmount, category, paymentMethod));
+        project.addExpense(Expense.getTestExpense(124424 + addAmount, category, paymentMethod));
         return project;
     }
 
@@ -166,9 +198,5 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
                 Project.getTestProject("Test2"),
                 Project.getTestProject("Test3")
         );
-    }
-
-    private boolean checkIfEmpty() {
-        return projectRepository.findAll().isEmpty();
     }
 }

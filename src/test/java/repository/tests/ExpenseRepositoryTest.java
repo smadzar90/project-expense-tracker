@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +29,8 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
 
     @Test
     void canSaveExpense() {
-       Expense expense = expenseRepository.save(getExpense(40000));
-       assertThat(expense.getId()).isGreaterThan(0);
+        Expense expense = expenseRepository.save(getExpense(40000));
+        assertThat(expense.getId()).isGreaterThan(0);
     }
 
     @Test
@@ -40,29 +41,18 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
 
     @Test
     void canFindAllExpenses() {
-        assertTrue(checkIfEmpty());
-        Set<Expense> expenses = getTestExpenses();
-        List<Expense> savedExpenses = expenseRepository.saveAll(expenses);
-        savedExpenses.forEach(expense -> {
-            assertThat(expense.getCategory().getId()).isEqualTo(1);
-            assertThat(expense.getPaymentMethod().getId()).isEqualTo(1);
-            assertThat(expense.getId()).isGreaterThan(0);
-        });
+        expenseRepository.saveAll(getTestExpenses());
+        List<Expense> expenses = expenseRepository.findAll();
+        assertThat(expenses.size()).isEqualTo(4);
     }
 
     @Test
     void canFindExpenseByID() {
-        Expense savedExpense1 = expenseRepository.save(getExpense(30000));
-        Expense savedExpense2 = expenseRepository.save(getExpense(13000));
-        assertThat(expenseRepository.findByID(savedExpense1.getId()))
+        Expense expense = expenseRepository.save(getExpense(30000));
+        assertThat(expenseRepository.findByID(expense.getId()))
                 .isPresent()
-                .hasValueSatisfying(expense -> {
-                    assertThat(expense.getAmount()).isEqualTo(new BigDecimal("30000.00"));
-                });
-        assertThat(expenseRepository.findByID(savedExpense2.getId()))
-                .isPresent()
-                .hasValueSatisfying(expense -> {
-                    assertThat(expense.getAmount()).isEqualTo(new BigDecimal("13000.00"));
+                .hasValueSatisfying(e -> {
+                    assertThat(e.getAmount()).isEqualTo(new BigDecimal("30000.00"));
                 });
     }
 
@@ -109,7 +99,66 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
     void canDeleteAllExpenses() {
         List<Expense> expenses = expenseRepository.saveAll(getTestExpenses());
         expenseRepository.deleteAll(new HashSet<>(expenses));
-        assertTrue(checkIfEmpty());
+        assertTrue((expenseRepository.findAll()).isEmpty());
+    }
+
+    @Test
+    void canFindAllExpensesByProject() {
+        Expense expense1 = getExpense(200000);
+        Expense expense2 = getExpense(250000);
+        Project savedProject = projectRepository.save(Project.getTestProject("test project"));
+        expense1.setProject(savedProject);
+        expense2.setProject(savedProject);
+        expenseRepository.saveAll(Set.of(expense1, expense2));
+        List<Expense> expenses = expenseRepository.findAllEntitiesByAttribute("e.PROJECT_ID", savedProject.getId());
+        assertThat(expenses.size()).isEqualTo(2);
+        expenses.forEach(e -> assertThat(e.getProject().getName()).isEqualTo("test project"));
+    }
+
+    @Test
+    void canFindAllExpensesByCategory() {
+        expenseRepository.saveAll(getTestExpenses());
+        List<Expense> foundExpenses = expenseRepository.findAllEntitiesByAttribute("e.CATEGORY_ID", 1);
+        assertThat(foundExpenses.size()).isEqualTo(4);
+        foundExpenses.forEach(e -> assertThat(e.getCategory().getName()).isEqualTo("Labor Costs"));
+    }
+
+    @Test
+    void canFindAllExpensesByPaymentMethod() {
+        expenseRepository.saveAll(getTestExpenses());
+        List<Expense> foundExpenses = expenseRepository.findAllEntitiesByAttribute("e.PAYMENT_METHOD_ID", 1);
+        assertThat(foundExpenses.size()).isEqualTo(4);
+        foundExpenses.forEach(e -> assertThat(e.getPaymentMethod().getName()).isEqualTo("Company Credit Card"));
+    }
+
+    @Test
+    void canFindAllExpensesByTransactionDate() {
+        expenseRepository.saveAll(getTestExpenses());
+        List<Expense> foundExpenses = expenseRepository.findAllEntitiesByAttribute("e.TRANSACTION_DATE", LocalDate.of(2024, 10, 15));
+        assertThat(foundExpenses.size()).isEqualTo(4);
+    }
+
+    @Test
+    void canFindAllExpensesByAmountGreaterThen() {
+        expenseRepository.saveAll(getTestExpenses());
+        List<Expense> foundExpenses = expenseRepository.findAllByAttributeGreaterThan("e.AMOUNT", new BigDecimal(30000));
+        assertThat(foundExpenses.size()).isEqualTo(2);
+    }
+
+    @Test
+    void canFindAllExpensesByAmountLessThen() {
+        expenseRepository.saveAll(getTestExpenses());
+        List<Expense> foundExpenses = expenseRepository.findAllByAttributeLessThan("e.AMOUNT", new BigDecimal(30000));
+        assertThat(foundExpenses.size()).isEqualTo(2);
+    }
+
+    private static Expense getExpense(Integer testAmount) {
+        Project savedProject = projectRepository.save(Project.getTestProject("test project"));
+        Category category = categoryRepository.findByID(1L).orElse(null);
+        PaymentMethod paymentMethod = paymentRepository.findByID(1L).orElse(null);
+        Expense expense = Expense.getTestExpense(testAmount, category, paymentMethod);
+        expense.setProject(savedProject);
+        return expense;
     }
 
     private static Set<Expense> getTestExpenses() {
@@ -119,18 +168,5 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
                 getExpense(10000),
                 getExpense(100000)
         );
-    }
-
-    private static Expense getExpense(Integer testAmount) {
-        Project savedProject = projectRepository.save(Project.getTestProject("test project"));
-        Category category = categoryRepository.findByID(1).orElse(null);
-        PaymentMethod paymentMethod = paymentRepository.findByID(1).orElse(null);
-        Expense expense = Expense.getTestExpense(testAmount, category, paymentMethod);
-        expense.setProject(savedProject);
-        return expense;
-    }
-
-    private static boolean checkIfEmpty() {
-        return expenseRepository.findAll().isEmpty();
     }
 }

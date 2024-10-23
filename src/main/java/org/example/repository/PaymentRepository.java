@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PaymentRepository extends EntityRepository<PaymentMethod> {
-    private final String FIND_SQL = "SELECT ID AS PM_ID, NAME AS PM_NAME, DESCRIPTION AS PM_DESCRIPTION FROM PAYMENT_METHOD WHERE ID=?";
+    private final String FIND_ALL_SQL = "SELECT ID AS PM_ID, NAME AS PM_NAME, DESCRIPTION AS PM_DESCRIPTION FROM PAYMENT_METHOD;";
+    private final String FIND_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 1).concat(" WHERE ID=?;");
 
     public PaymentRepository(Connection connection) {
         super(connection);
@@ -28,5 +29,10 @@ public class PaymentRepository extends EntityRepository<PaymentMethod> {
     @Override
     protected String getFindSQL() {
         return FIND_SQL;
+    }
+
+    @Override
+    protected String getFindAllSQL() {
+        return FIND_ALL_SQL;
     }
 }

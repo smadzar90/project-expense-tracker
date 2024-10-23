@@ -1,97 +1,304 @@
-2024-10-16 13:40:30.846278+02:00 database: close
-org.h2.message.DbException: IO Exception: "Closing" [90028-232]
-	at org.h2.message.DbException.get(DbException.java:212)
-	at org.h2.mvstore.db.Store.close(Store.java:374)
-	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1292)
-	at org.h2.engine.Database.closeImpl(Database.java:1254)
-	at org.h2.engine.Database.close(Database.java:1173)
-	at org.h2.engine.Database.close(Database.java:1150)
-	at org.h2.engine.Database.removeSession(Database.java:1077)
-	at org.h2.engine.SessionLocal.close(SessionLocal.java:916)
-	at org.h2.jdbc.JdbcConnection.closeOld(JdbcConnection.java:208)
-	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:134)
-	at org.h2.Driver.connect(Driver.java:59)
-	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:682)
-	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:253)
-	at repository.tests.PaymentRepositoryTest.setUp(PaymentRepositoryTest.java:24)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:766)
-	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptLifecycleMethod(TimeoutExtension.java:128)
-	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptBeforeAllMethod(TimeoutExtension.java:70)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:92)
-	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:86)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeBeforeAllMethods$14(ClassBasedTestDescriptor.java:412)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeBeforeAllMethods(ClassBasedTestDescriptor.java:410)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:216)
-	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.before(ClassBasedTestDescriptor.java:85)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:153)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
-	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
-	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:63)
-	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
-	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
-	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
-	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
-	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
-	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "Closing" [90028-232]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+2024-10-22 11:10:55.339646+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:10:56.389427+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:10:56.396842+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:10:56.410124+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:01.451677+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:02.650074+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:02.669819+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:02.674859+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:06.671549+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:28.891403+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:46.461951+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:49.023052+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:49.041765+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:11:49.048348+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:12:07.132828+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:12:21.421980+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:12:51.498574+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:12:51.883750+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:12:51.904603+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:12:51.911885+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:12:53.244282+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:13:19.723565+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:14:01.976642+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:14:12.594736+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:15:12.645792+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:15:24.775608+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:15:50.796370+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:16:30.213791+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:07.350472+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:07.467527+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:08.628203+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:08.640627+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:08.652278+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:13.686849+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:40.154380+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:45.550537+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:45.569522+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:45.573809+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:47.327610+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:48.081383+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:48.100110+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:48.104127+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:54.071454+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:55.043426+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:55.066578+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:55.070677+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:19:55.811928+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:25:15.419057+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:25:17.229191+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:25:17.251682+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:25:17.256710+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:25:17.927116+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:26:18.669575+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:26:47.673538+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:28:56.773076+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:28:57.782597+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:28:58.944269+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:28:58.952599+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:28:58.958735+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:03.994208+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:04.335230+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:04.353567+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:04.358287+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:19.213873+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:40.864791+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:46.029944+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:46.043244+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:46.046979+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:29:54.341013+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:30:01.856649+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:30:01.871797+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:30:01.878294+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:30:15.858339+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:31:06.731928+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:31:06.768848+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:31:06.793597+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:34:44.905942+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:37:04.702545+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:37:28.784175+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:37:41.501924+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:38:10.396474+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:38:21.565555+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:38:23.140564+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:38:23.160574+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:38:23.165101+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:42:42.478559+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:43:42.531991+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:44:00.618639+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:45:14.252839+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:46:53.133214+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:47:23.624282+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:48:01.800775+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:48:21.541526+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-232]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
-	... 72 more
-Caused by: org.h2.mvstore.MVStoreException: java.lang.AssertionError [2.3.232/3]
-	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:996)
-	at org.h2.mvstore.MVStore.executeFilestoreOperation(MVStore.java:926)
-	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:463)
-	at org.h2.mvstore.RandomAccessStore.compactStore(RandomAccessStore.java:443)
-	at org.h2.mvstore.FileStore.compactStore(FileStore.java:890)
-	at org.h2.mvstore.FileStore.stop(FileStore.java:275)
-	at org.h2.mvstore.MVStore.closeStore(MVStore.java:693)
-	at org.h2.mvstore.MVStore.close(MVStore.java:643)
-	at org.h2.mvstore.db.Store.close(Store.java:364)
-	... 70 more
-Caused by: java.lang.AssertionError
-	at org.h2.mvstore.RandomAccessStore.moveChunkInside(RandomAccessStore.java:630)
-	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:569)
-	at org.h2.mvstore.RandomAccessStore.compactMoveChunks(RandomAccessStore.java:481)
-	at org.h2.mvstore.RandomAccessStore.lambda$compactMoveChunks$1(RandomAccessStore.java:468)
-	at org.h2.mvstore.FileStore.executeFileStoreOperation(FileStore.java:1893)
-	at org.h2.mvstore.MVStore.executeFilestoreOperation(MVStore.java:922)
-	... 77 more
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.message.DbException.get(DbException.java:188)
+	at org.h2.jdbc.JdbcConnection.checkClosed(JdbcConnection.java:1423)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:313)
+	at org.example.repository.base.EntityRepository.findAll(EntityRepository.java:20)
+	at org.example.service.CategoryService.findAllCategories(CategoryService.java:18)
+	at org.example.controller.CategoryController.handleFindAllCategories(CategoryController.java:40)
+	at org.example.controller.CategoryController.handle(CategoryController.java:28)
+	at jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:98)
+	at jdk.httpserver/sun.net.httpserver.AuthFilter.doFilter(AuthFilter.java:82)
+	at jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:101)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Exchange$LinkHandler.handle(ServerImpl.java:871)
+	at jdk.httpserver/com.sun.net.httpserver.Filter$Chain.doFilter(Filter.java:98)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Exchange.run(ServerImpl.java:847)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$DefaultExecutor.execute(ServerImpl.java:203)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Dispatcher.handle(ServerImpl.java:566)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl$Dispatcher.run(ServerImpl.java:531)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+2024-10-22 11:48:23.172882+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-22 11:48:24.329087+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-232]
+2024-10-23 09:17:26.156357+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:26.185896+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:26.188698+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:27.248132+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:30.984473+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:17:41.611980+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:41.636893+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:41.640859+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:42.702425+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:47.730966+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:47.735566+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:17:47.740644+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:18:17.774748+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTS ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:19:04.377576+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:19:04.903088+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:19:07.963290+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:19:09.161767+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:20:02.908295+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:20:21.801579+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:20:21.825891+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:20:21.829261+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:20:22.883852+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:20:27.909626+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:20:27.916245+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:20:27.921455+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:20:58.027232+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:21:34.381685+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:29:00.328041+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY WHERE ID=?; [42001-232]
+2024-10-23 09:29:05.500465+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:29:06.512577+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]
+2024-10-23 09:34:11.607647+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY;"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
+SELECTsf ID AS C_ID, NAME AS C_NAME, DESCRIPTION AS C_DESCRIPTION FROM CATEGORY; [42001-232]

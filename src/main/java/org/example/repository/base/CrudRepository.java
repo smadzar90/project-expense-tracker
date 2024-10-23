@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class CrudRepository<T> extends AnnotationUtils<T> {
-    private final Connection connection;
+    protected final Connection connection;
 
     public CrudRepository(Connection connection) {
         this.connection = connection;
@@ -63,15 +63,28 @@ public abstract class CrudRepository<T> extends AnnotationUtils<T> {
         }
     }
 
-    public List<T> findAllByForeignKey(String foreignKey, Long id) {
+    private <G> List<T> findAllByAttribute(String sql, G val) {
         try {
-            PreparedStatement pStatement = connection.prepareStatement(getFindAllByForeignKeySQL(foreignKey));
+            PreparedStatement pStatement = connection.prepareStatement(sql);
+            pStatement.setObject(1, val);
             ResultSet rs = pStatement.executeQuery();
 
             return mapResultSetToEntities(rs);
         } catch (SQLException e) {
             throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
         }
+    }
+
+    public <G> List<T> findAllEntitiesByAttribute(String attribute, G val) {
+        return findAllByAttribute(getFindAllByAttributeSQL(attribute), val);
+    }
+
+    public <G> List<T> findAllByAttributeGreaterThan(String attribute, G val) {
+        return findAllByAttribute(getFindAllByAttGreaterThan(attribute), val);
+    }
+
+    public <G> List<T> findAllByAttributeLessThan(String attribute, G val) {
+        return findAllByAttribute(getFindAllByAttLessThan(attribute), val);
     }
 
     public void updateAll(Set<T> entities) {
@@ -111,7 +124,9 @@ public abstract class CrudRepository<T> extends AnnotationUtils<T> {
     protected abstract String getFindSQL();
     protected abstract String getSaveSQL();
     protected abstract String getFindAllSQL();
-    protected abstract String getFindAllByForeignKeySQL(String foreignKey);
+    protected abstract String getFindAllByAttributeSQL(String attribute);
+    protected abstract String getFindAllByAttGreaterThan(String attribute);
+    protected abstract String getFindAllByAttLessThan(String attribute);
     protected abstract String getUpdateSQL(T entity);
     protected abstract String getDeleteSQL();
 }

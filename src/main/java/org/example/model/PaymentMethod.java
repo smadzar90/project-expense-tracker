@@ -1,13 +1,15 @@
 package org.example.model;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 public class PaymentMethod {
     private Long id;
     private String name;
     private String description;
+
+    public PaymentMethod(Long id) {
+        this.id = id;
+    }
 
     public PaymentMethod(String name, String description) {
         this.name = name;
@@ -48,5 +50,14 @@ public class PaymentMethod {
     @Override
     public int hashCode() {
         return Objects.hash(name, description);
+    }
+
+    @Override
+    public String toString() {
+        return "PaymentMethod{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -7,27 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.repository.ExpenseSQL.*;
 import static org.example.utils.EntityMapperUtils.mapToExpense;
 import static org.example.utils.EntityMapperUtils.mapToProject;
 
 public class ExpenseRepository extends CrudRepository<Expense> {
     private final CategoryRepository categoryRepository;
     private final PaymentRepository paymentRepository;
-    private final String SAVE_SQL = "INSERT INTO EXPENSE (PROJECT_ID, CATEGORY_ID, PAYMENT_METHOD_ID, DESCRIPTION, AMOUNT, TRANSACTION_DATE) VALUES(?, ?, ?, ?, ?, ?);";
-    private final String FIND_ALL_BY_FOREIGN_KEY_SQL = "SELECT * FROM EXPENSE WHERE %s = ?";
-    private final String FIND_ALL_SQL= """
-         SELECT p.ID AS PROJECT_ID, p.NAME AS PROJECT_NAME, p.DESCRIPTION AS PROJECT_DESCRIPTION,
-                p.START_DATE, p.BUDGET, p.COMPLETED, e.ID AS EXPENSE_ID, e.DESCRIPTION AS EXPENSE_DESCRIPTION,
-                e.AMOUNT, e.TRANSACTION_DATE, c.ID AS C_ID, c.NAME AS C_NAME, c.DESCRIPTION AS C_DESCRIPTION,
-                pm.ID AS PM_ID, pm.NAME AS PM_NAME, pm.DESCRIPTION AS PM_DESCRIPTION
-         FROM EXPENSE e
-         LEFT JOIN PROJECT p ON e.PROJECT_ID = p.ID
-         LEFT JOIN CATEGORY c ON e.CATEGORY_ID = c.ID
-         LEFT JOIN PAYMENT_METHOD pm ON e.PAYMENT_METHOD_ID = pm.ID;
-         """;
-    private final String FIND_BY_ID_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 2) + " WHERE e.ID = ?";
-    private final String UPDATE_SQL = "UPDATE EXPENSE SET PROJECT_ID = ?, CATEGORY_ID = ?, PAYMENT_METHOD_ID = ?, DESCRIPTION = ?, AMOUNT = ?, TRANSACTION_DATE = ? WHERE ID = %d";
-    private final String DELETE_SQL = "DELETE FROM EXPENSE WHERE ID = ?";
 
     public ExpenseRepository(Connection connection) {
         super(connection);
@@ -72,7 +58,7 @@ public class ExpenseRepository extends CrudRepository<Expense> {
 
     @Override
     protected String getFindSQL() {
-        return FIND_BY_ID_SQL;
+        return ExpenseSQL.FIND_BY_ID_SQL;
     }
 
     @Override
@@ -82,12 +68,22 @@ public class ExpenseRepository extends CrudRepository<Expense> {
 
     @Override
     protected String getFindAllSQL() {
-        return FIND_ALL_SQL;
+        return ExpenseSQL.FIND_ALL_SQL;
     }
 
     @Override
-    protected String getFindAllByForeignKeySQL(String foreignKey) {
-        return String.format(FIND_ALL_BY_FOREIGN_KEY_SQL, foreignKey);
+    protected String getFindAllByAttributeSQL(String attribute) {
+        return String.format(FIND_ALL_BY_ATTRIBUTE_SQL, attribute);
+    }
+
+    @Override
+    protected String getFindAllByAttGreaterThan(String attribute) {
+        return String.format(FIND_ALL_BY_ATT_GREATER_THAN_SQL, attribute);
+    }
+
+    @Override
+    protected String getFindAllByAttLessThan(String attribute) {
+        return String.format(FIND_ALL_BY_ATT_SMALLER_THAN_SQL, attribute);
     }
 
     @Override

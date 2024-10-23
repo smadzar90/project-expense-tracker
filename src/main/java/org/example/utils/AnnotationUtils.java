@@ -5,7 +5,6 @@ import org.example.annotations.Id;
 import java.util.Arrays;
 
 public class AnnotationUtils<T> {
-
     protected boolean isIdPresent(T entity) {
         return Arrays.stream(entity.getClass().getDeclaredFields())
                 .filter(f -> f.isAnnotationPresent(Id.class))

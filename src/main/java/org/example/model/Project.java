@@ -21,6 +21,10 @@ public class Project {
     private LocalDateTime updatedOn;
     private Set<Expense> expenses = new HashSet<>();
 
+    public Project(Long id) {
+        this.id = id;
+    }
+
     public Project(String name, String description, LocalDate startDate, BigDecimal budget) {
         this.name = name;
         this.description = description;
@@ -28,25 +32,17 @@ public class Project {
         this.budget = budget;
     }
 
-    public LocalDateTime getUpdatedOn() {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn(LocalDateTime updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
     public Project(String name, String description, LocalDate startDate, BigDecimal budget, Boolean completed) {
         this(name, description, startDate, budget);
         this.completed = completed;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Boolean getCompleted() {
@@ -65,14 +61,6 @@ public class Project {
         return description;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Boolean isCompleted() {
-        return completed;
-    }
-
     public Set<Expense> getExpenses() {
         return expenses;
     }
@@ -81,16 +69,28 @@ public class Project {
         this.expenses.add(expense);
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setCompleted(Boolean completed) {
         this.completed = completed;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project project)) return false;
+        return Objects.equals(id, project.id) && Objects.equals(name, project.name) && Objects.equals(description, project.description) && Objects.equals(startDate, project.startDate) && Objects.equals(budget, project.budget) && Objects.equals(completed, project.completed);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, startDate, budget, completed);
     }
 
     @Override
@@ -103,22 +103,6 @@ public class Project {
                 ", budget=" + budget +
                 ", completed=" + completed +
                 '}';
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Project project)) return false;
-        return Objects.equals(name, project.name) && Objects.equals(description, project.description) && Objects.equals(startDate, project.startDate) && Objects.equals(budget, project.budget) && Objects.equals(completed, project.completed);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, description, startDate, budget, completed);
     }
 
     public static Project getTestProject(String name) {

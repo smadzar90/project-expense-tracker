@@ -33,15 +33,15 @@ public class Expense {
         this.transactionDate = transactionDate;
     }
 
-    public Expense(Category category, PaymentMethod paymentMethod, String description, BigDecimal amount, LocalDate transactionDate) {
+    public Expense(Long projectId, Long categoryId, Long paymentId, String description, BigDecimal amount, LocalDate transactionDate) {
         this(description, amount, transactionDate);
-        this.category = category;
-        this.paymentMethod = paymentMethod;
+        this.project = new Project(projectId);
+        this.category = new Category(categoryId);
+        this.paymentMethod = new PaymentMethod(paymentId);
     }
 
-    public Expense(Project project, Category category, PaymentMethod paymentMethod, String description, BigDecimal amount, LocalDate transactionDate) {
+    public Expense(Category category, PaymentMethod paymentMethod, String description, BigDecimal amount, LocalDate transactionDate) {
         this(description, amount, transactionDate);
-        this.project = project;
         this.category = category;
         this.paymentMethod = paymentMethod;
     }
@@ -52,16 +52,16 @@ public class Expense {
         this.transactionDate = transactionDate;
     }
 
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public void setUpdatedOn(LocalDateTime updatedOn) {
-        this.updatedOn = updatedOn;
-    }
-
     public Category getCategory() {
         return category;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Project getProject() {
+        return project;
     }
 
     public PaymentMethod getPaymentMethod() {
@@ -80,20 +80,12 @@ public class Expense {
         return transactionDate;
     }
 
-    public Long getId() {
-        return id;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
     }
 
     @Override

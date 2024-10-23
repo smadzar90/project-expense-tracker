@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Seeder {
+
     public static void executeDefaultQueries(Connection connection) {
         Path path = Paths.get("./src/main/resources/files/default_queries.txt");
         List<String> queries = new ArrayList<>();
@@ -27,7 +28,7 @@ public class Seeder {
                }
             });
         } catch (IOException e) {
-            throw new RuntimeException("An error occurred while reading the file.", e);
+            throw new RuntimeException("An error occurred while reading the file." + e.getMessage());
         }
         executeQueries(queries, connection);
     }
@@ -39,8 +40,8 @@ public class Seeder {
                 statement.execute(q);
                 connection.commit();
             } catch (SQLException e) {
-                throw new RuntimeException("An error occurred while executing default queries.", e);
+                throw new RuntimeException("An error occurred while executing default queries."  + e.getMessage());
             }
         });
-    };
+    }
 }
