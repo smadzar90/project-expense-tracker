@@ -98,7 +98,8 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
     @Test
     void canDeleteAllExpenses() {
         List<Expense> expenses = expenseRepository.saveAll(getTestExpenses());
-        expenseRepository.deleteAll(new HashSet<>(expenses));
+        Set<Long> ids = expenses.stream().map(Expense::getId).collect(Collectors.toSet());
+        expenseRepository.deleteAll(ids);
         assertTrue((expenseRepository.findAll()).isEmpty());
     }
 

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.example.repository.ExpenseSQL.*;
-import static org.example.utils.EntityMapperUtils.mapToExpense;
-import static org.example.utils.EntityMapperUtils.mapToProject;
+import static org.example.utils.EntityMapper.mapToExpense;
+import static org.example.utils.EntityMapper.mapToProject;
 
 public class ExpenseRepository extends CrudRepository<Expense> {
     private final CategoryRepository categoryRepository;

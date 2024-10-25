@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class EntityController<T> extends BaseResponseHandler implements HttpHandler {
-    private final String ERR_MESSAGE_500 = "Internal Server Error. Please try again later.";
 
     @Override
     public void handle(HttpExchange exchange) {

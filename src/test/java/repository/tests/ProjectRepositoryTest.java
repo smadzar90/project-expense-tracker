@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -140,8 +141,9 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
 
     @Test
     void canDeleteAllProjects() {
-        Set<Project> savedProjects = new HashSet<>(projectRepository.saveAll(getTestProjects()));
-        projectRepository.deleteAll(savedProjects);
+        List<Project> savedProjects = projectRepository.saveAll(getTestProjects());
+        Set<Long> ids = savedProjects.stream().map(Project::getId).collect(Collectors.toSet());
+        projectRepository.deleteAll(ids);
         assertTrue(projectRepository.findAll().isEmpty());
     }
 
@@ -158,13 +160,6 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
     void canFindAllProjectsByStartDate() {
         projectRepository.saveAll(getTestProjects());
         List<Project> projectsFound = projectRepository.findAllEntitiesByAttribute("p.START_DATE", LocalDate.of(2024, 11, 15));
-        assertThat(projectsFound.size()).isEqualTo(3);
-    }
-
-    @Test
-    void canFindAllProjectsByCompleted() {
-        projectRepository.saveAll(getTestProjects());
-        List<Project> projectsFound = projectRepository.findAllEntitiesByAttribute("p.COMPLETED", false);
         assertThat(projectsFound.size()).isEqualTo(3);
     }
 

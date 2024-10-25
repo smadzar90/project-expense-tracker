@@ -63,6 +63,36 @@ public abstract class CrudRepository<T> extends AnnotationUtils<T> {
         }
     }
 
+    public void updateAll(Set<T> entities) {
+        entities.forEach(this::update);
+    }
+
+    public void update(T entity) {
+        if(!isIdPresent(entity)) throw new IllegalArgumentException("ID not present in entity");
+        try {
+            PreparedStatement pStatement = connection.prepareStatement(getUpdateSQL(entity), PreparedStatement.RETURN_GENERATED_KEYS);
+            mapEntityToStatement(pStatement, entity);
+            pStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
+        }
+    }
+
+    public void deleteAll(Set<Long> ids) {
+        ids.forEach(this::delete);
+    }
+
+    public void delete(Long id) {
+        if(id == null) throw new IllegalArgumentException("ID not present in entity");
+        try {
+            PreparedStatement pStatement = connection.prepareStatement(getDeleteSQL(), PreparedStatement.RETURN_GENERATED_KEYS);
+            pStatement.setLong(1, id);
+            pStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
+        }
+    }
+
     private <G> List<T> findAllByAttribute(String sql, G val) {
         try {
             PreparedStatement pStatement = connection.prepareStatement(sql);
@@ -85,36 +115,6 @@ public abstract class CrudRepository<T> extends AnnotationUtils<T> {
 
     public <G> List<T> findAllByAttributeLessThan(String attribute, G val) {
         return findAllByAttribute(getFindAllByAttLessThan(attribute), val);
-    }
-
-    public void updateAll(Set<T> entities) {
-        entities.forEach(this::update);
-    }
-
-    public void update(T entity) {
-        if(!isIdPresent(entity)) throw new IllegalArgumentException("ID not present in entity");
-        try {
-            PreparedStatement pStatement = connection.prepareStatement(getUpdateSQL(entity), PreparedStatement.RETURN_GENERATED_KEYS);
-            mapEntityToStatement(pStatement, entity);
-            pStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
-        }
-    }
-
-    public void deleteAll(Set<T> entities) {
-        entities.forEach(e -> delete(getIdUsingAnnotations(e)));
-    }
-
-    public void delete(Long id) {
-        if(id == null) throw new IllegalArgumentException("ID not present in entity");
-        try {
-            PreparedStatement pStatement = connection.prepareStatement(getDeleteSQL(), PreparedStatement.RETURN_GENERATED_KEYS);
-            pStatement.setLong(1, id);
-            pStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error occurred while executing a query. " + e.getMessage());
-        }
     }
 
     protected abstract List<T> mapResultSetToEntities(ResultSet rs) throws SQLException;

@@ -19,59 +19,59 @@ public class ExpenseService extends PaymentService {
         expenseRepository = new ExpenseRepository(connection);
     }
 
-    Expense saveExpense(Expense expense) {
+    public Expense saveExpense(Expense expense) {
         return expenseRepository.save(expense);
     }
 
-    List<Expense> saveAllExpenses(Set<Expense> expenses) {
+    public List<Expense> saveAllExpenses(Set<Expense> expenses) {
         return expenseRepository.saveAll(expenses);
     }
 
-    Optional<Expense> findExpenseByID(Long id) {
+    public Optional<Expense> findExpenseByID(Long id) {
         return expenseRepository.findByID(id);
     }
 
-    List<Expense> findAllExpenses() {
+    public List<Expense> findAllExpenses() {
         return expenseRepository.findAll();
     }
 
-    void updateExpense(Expense expense) {
+    public void updateExpense(Expense expense) {
         expenseRepository.update(expense);
     }
 
-    void updateAllExpenses(Set<Expense> expenses) {
+    public void updateAllExpenses(Set<Expense> expenses) {
         expenseRepository.updateAll(expenses);
     }
 
-    void deleteExpenseByID(Long id) {
+    public void deleteExpenseByID(Long id) {
         expenseRepository.delete(id);
     }
 
-    void deleteAllExpenses(Set<Expense> expenses) {
-        expenseRepository.deleteAll(expenses);
+    public void deleteAllExpenses(Set<Long> ids) {
+        expenseRepository.deleteAll(ids);
     }
 
-    List<Expense> findAllExpensesByProjectID(Long id) {
+    public List<Expense> findAllExpensesByProjectID(Long id) {
         return expenseRepository.findAllEntitiesByAttribute("e.PROJECT_ID", id);
     }
 
-    List<Expense> findAllExpensesByCategoryID(Long id) {
+    public List<Expense> findAllExpensesByCategoryID(Long id) {
         return expenseRepository.findAllEntitiesByAttribute("e.CATEGORY_ID", id);
     }
 
-    List<Expense> findAllExpensesByPaymentMethodID(Long id) {
+    public List<Expense> findAllExpensesByPaymentMethodID(Long id) {
         return expenseRepository.findAllEntitiesByAttribute("e.PAYMENT_EXPENSE_ID", id);
     }
 
-    List<Expense> findAllExpensesByTransactionDate(LocalDate date) {
+    public List<Expense> findAllExpensesByTransactionDate(LocalDate date) {
         return expenseRepository.findAllEntitiesByAttribute("e.TRANSACTION_DATE", date);
     }
 
-    List<Expense> findAllExpensesByAmountGreaterThen(BigDecimal amount) {
+    public List<Expense> findAllExpensesByAmountGreaterThen(BigDecimal amount) {
         return expenseRepository.findAllByAttributeGreaterThan("e.AMOUNT", amount);
     }
 
-    List<Expense> findAllExpensesByAmountLessThen(BigDecimal amount) {
+    public List<Expense> findAllExpensesByAmountLessThen(BigDecimal amount) {
         return expenseRepository.findAllByAttributeLessThan("e.AMOUNT", amount);
     }
 }

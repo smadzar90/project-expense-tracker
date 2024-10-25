@@ -8,8 +8,8 @@ import java.sql.*;
 import java.util.*;
 
 import static org.example.repository.ProjectSQL.*;
-import static org.example.utils.EntityMapperUtils.mapToExpense;
-import static org.example.utils.EntityMapperUtils.mapToProject;
+import static org.example.utils.EntityMapper.mapToExpense;
+import static org.example.utils.EntityMapper.mapToProject;
 
 public class ProjectRepository extends CrudRepository<Project> {
     private final CategoryRepository categoryRepository;
@@ -30,10 +30,12 @@ public class ProjectRepository extends CrudRepository<Project> {
         while(rs.next()) {
             Project project = mapToEntity(rs);
             Expense expense = mapToExpense(rs, categoryRepository, paymentRepository);
-            if(projectExpenseMap.containsKey(project)) {
+
+            projectExpenseMap.computeIfAbsent(project, _ -> new ArrayList<>());
+
+            if(expense.getId() > 0) {
                 projectExpenseMap.get(project).add(expense);
             }
-            projectExpenseMap.computeIfAbsent(project, _ -> new ArrayList<>()).add(expense);
         }
 
         projectExpenseMap.forEach((key, value) -> value.forEach(key::addExpense));

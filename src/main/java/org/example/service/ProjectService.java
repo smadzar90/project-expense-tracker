@@ -47,8 +47,8 @@ public class ProjectService extends ExpenseService {
         projectRepository.delete(id);
     }
 
-    public void deleteAllProjects(Set<Project> projects) {
-        projectRepository.deleteAll(projects);
+    public void deleteAllProjects(Set<Long> ids) {
+        projectRepository.deleteAll(ids);
     }
 
     public List<Project> findAllProjectsByName(String name) {
@@ -57,10 +57,6 @@ public class ProjectService extends ExpenseService {
 
     public List<Project> findAllProjectsByStartDate(LocalDate startDate) {
         return projectRepository.findAllEntitiesByAttribute("p.START_DATE", startDate);
-    }
-
-    public List<Project> findAllProjectsByCompleted(Boolean completed) {
-        return projectRepository.findAllEntitiesByAttribute("p.COMPLETED", completed);
     }
 
     public List<Project> findAllProjectsByBudgetGreaterThen(BigDecimal budget) {

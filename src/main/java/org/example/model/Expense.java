@@ -1,10 +1,8 @@
 package org.example.model;
 
 import org.example.annotations.Id;
-import org.example.service.CategoryService;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -33,9 +31,8 @@ public class Expense {
         this.transactionDate = transactionDate;
     }
 
-    public Expense(Long projectId, Long categoryId, Long paymentId, String description, BigDecimal amount, LocalDate transactionDate) {
+    public Expense(Long categoryId, Long paymentId, String description, BigDecimal amount, LocalDate transactionDate) {
         this(description, amount, transactionDate);
-        this.project = new Project(projectId);
         this.category = new Category(categoryId);
         this.paymentMethod = new PaymentMethod(paymentId);
     }
