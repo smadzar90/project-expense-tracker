@@ -58,6 +58,10 @@ The Gson library is used for JSON serialization/deserialization, JUnit for testi
   - `DELETE /api/expense/delete/{id}`
   - `DELETE /api/expense/delete/all`
 
+## Usage
+
+To start the service, clone the repository to your local machine, navigate to the project directory, and run the main method inside the `PETracker` class, which initializes the HTTP server to handle requests. Once the service is running, you can test and access the RESTful API endpoints using a web browser or Postman at `http://localhost:8000`.
+
 
 
 
