@@ -12,7 +12,7 @@ The Gson library is used for JSON serialization/deserialization, JUnit for testi
 - Java HTTP Server
 - JUnit
 - Embedded H2
-- GSON
+- Gson
 
 ## API Endpoints
 
