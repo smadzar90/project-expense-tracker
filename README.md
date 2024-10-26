@@ -18,23 +18,13 @@ The Gson library is used for JSON serialization/deserialization, JUnit for testi
 
 ### Category Endpoints
 
-- **Retrieve a Specific Category**
   - `GET /api/category/{id}`
-
-- **Retrieve All Categories**
   - `GET /api/category/all`
-
----
 
 ### Payment Method Endpoints
 
-- **Retrieve a Specific Payment Method**
-  - **Request:** `GET /api/payment/method/{id}`
-  - **Description:** Fetches the details of a specific payment method identified by the `{id}` parameter.
-
-- **Retrieve All Payment Methods**
-  - **Request:** `GET /api/payment/method/all`
-  - **Description:** Retrieves a list of all payment methods available in the system.
+  - `GET /api/payment/method/{id}`
+  - `GET /api/payment/method/all`
 
 
 
