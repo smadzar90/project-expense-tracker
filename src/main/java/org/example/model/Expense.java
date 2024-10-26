@@ -19,18 +19,6 @@ public class Expense {
     private LocalDateTime updatedOn;
     private LocalDate transactionDate;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public void setTransactionDate(LocalDate transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
     public Expense(Long categoryId, Long paymentId, String description, BigDecimal amount, LocalDate transactionDate) {
         this(description, amount, transactionDate);
         this.category = new Category(categoryId);
@@ -49,40 +37,64 @@ public class Expense {
         this.transactionDate = transactionDate;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public BigDecimal getAmount() {
         return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public LocalDate getTransactionDate() {
         return transactionDate;
     }
 
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
     public void setProject(Project project) {
         this.project = project;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Category getCategory() {
+        return category;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Expense expense)) return false;
+        return Objects.equals(project, expense.project) && Objects.equals(category, expense.category) && Objects.equals(paymentMethod, expense.paymentMethod) && Objects.equals(description, expense.description) && Objects.equals(amount, expense.amount) && Objects.equals(transactionDate, expense.transactionDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(project, category, paymentMethod, description, amount, transactionDate);
     }
 
     @Override
@@ -96,18 +108,6 @@ public class Expense {
                 ", amount=" + amount +
                 ", transactionDate=" + transactionDate +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Expense expense)) return false;
-        return Objects.equals(project, expense.project) && Objects.equals(category, expense.category) && Objects.equals(paymentMethod, expense.paymentMethod) && Objects.equals(description, expense.description) && Objects.equals(amount, expense.amount) && Objects.equals(transactionDate, expense.transactionDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(project, category, paymentMethod, description, amount, transactionDate);
     }
 
     public static Expense getTestExpense(Integer testAmount, Category category, PaymentMethod paymentMethod) {

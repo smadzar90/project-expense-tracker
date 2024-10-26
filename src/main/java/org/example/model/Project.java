@@ -19,7 +19,7 @@ public class Project {
     private Boolean completed;
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
-    private Set<Expense> expenses = new HashSet<>();
+    private final Set<Expense> expenses = new HashSet<>();
 
     public Project(Long id) {
         this.id = id;
@@ -41,12 +41,28 @@ public class Project {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public Boolean getCompleted() {
         return completed;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
     }
 
     public BigDecimal getBudget() {
@@ -57,28 +73,12 @@ public class Project {
         return startDate;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public Set<Expense> getExpenses() {
         return expenses;
     }
 
     public void addExpense(Expense expense) {
         this.expenses.add(expense);
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
     }
 
     @Override

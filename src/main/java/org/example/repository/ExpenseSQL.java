@@ -1,6 +1,7 @@
 package org.example.repository;
 
 class ExpenseSQL {
+
      static final String COLUMNS =
             """
             p.ID AS PROJECT_ID, p.NAME AS PROJECT_NAME, p.DESCRIPTION AS PROJECT_DESCRIPTION,
@@ -13,18 +14,18 @@ class ExpenseSQL {
 
      static final String FIND_ALL_SQL= "SELECT "
             .concat(COLUMNS)
-            .concat("FROM EXPENSE e  LEFT JOIN PROJECT p ON e.PROJECT_ID = p.ID LEFT JOIN CATEGORY c ON e.CATEGORY_ID = c.ID LEFT JOIN PAYMENT_METHOD pm ON e.PAYMENT_METHOD_ID = pm.ID;");
+            .concat("FROM EXPENSE e  LEFT JOIN PROJECT p ON e.PROJECT_ID = p.ID LEFT JOIN CATEGORY c ON e.CATEGORY_ID = c.ID LEFT JOIN PAYMENT_METHOD pm ON e.PAYMENT_METHOD_ID = pm.ID LIMIT 100000;");
 
-     static final String FIND_BY_ID_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 1) + " WHERE e.ID = ?;";
+     static final String FIND_BY_ID_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 14) + " WHERE e.ID = ?;";
 
-     static final String FIND_ALL_BY_ATTRIBUTE_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 1)
-            .concat( " WHERE %s = ?;");
+     static final String FIND_ALL_BY_ATTRIBUTE_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 14)
+            .concat( " WHERE %s = ? LIMIT 100000;");
 
-     static final String FIND_ALL_BY_ATT_GREATER_THAN_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 1)
-            .concat( " WHERE %s > ?;");
+     static final String FIND_ALL_BY_ATT_GREATER_THAN_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 14)
+            .concat( " WHERE %s > ? LIMIT 100000;");
 
-     static final String FIND_ALL_BY_ATT_SMALLER_THAN_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 1)
-            .concat( " WHERE %s < ?;");
+     static final String FIND_ALL_BY_ATT_SMALLER_THAN_SQL = FIND_ALL_SQL.substring(0, FIND_ALL_SQL.length() - 14)
+            .concat( " WHERE %s < ? LIMIT 100000;");
 
      static final String UPDATE_SQL = "UPDATE EXPENSE SET PROJECT_ID = ?, CATEGORY_ID = ?, PAYMENT_METHOD_ID = ?, DESCRIPTION = ?, AMOUNT = ?, TRANSACTION_DATE = ? WHERE ID = %d;";
 

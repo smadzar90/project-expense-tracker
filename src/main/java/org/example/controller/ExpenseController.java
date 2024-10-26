@@ -1,14 +1,14 @@
 package org.example.controller;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.sun.net.httpserver.HttpExchange;
 import org.example.controller.base.CrudController;
 import org.example.model.Expense;
 import org.example.model.Project;
 import org.example.service.ExpenseService;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 public class ExpenseController extends CrudController<Expense> {
@@ -79,15 +79,15 @@ public class ExpenseController extends CrudController<Expense> {
 
     @Override
     protected void handleFindAllByAttribute(HttpExchange exchange, Map<String, String> queryMap) {
-        if(queryMap.containsKey("attribute") && queryMap.size() == 2) {
+        if (queryMap.containsKey("attribute") && queryMap.size() == 2) {
             String attribute = queryMap.get("attribute");
 
             switch (attribute) {
-                case "project_id" -> handleFindAllByForeignKey(exchange, queryMap, "project");
-                case "category_id" -> handleFindAllByForeignKey(exchange, queryMap, "category");
-                case "payment_id" -> handleFindAllByForeignKey(exchange, queryMap, "payment");
-                case "transaction_date" -> handleFindAllByTransactionDate(exchange, queryMap);
-                case "amount" -> handleFindAllByAmount(exchange, queryMap);
+                case "project_id" -> handleFindAllByAttribute(exchange, queryMap, "project_id");
+                case "category_id" -> handleFindAllByAttribute(exchange, queryMap, "category_id");
+                case "payment_id" -> handleFindAllByAttribute(exchange, queryMap, "payment_id");
+                case "transaction_date" -> handleFindAllByAttribute(exchange, queryMap, "transaction_date");
+                case "amount" -> handleFindAllByAttributeGreaterOrLessThan(exchange, queryMap);
                 default -> sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
             }
         } else {
@@ -95,29 +95,27 @@ public class ExpenseController extends CrudController<Expense> {
         }
     }
 
-    private void handleFindAllByForeignKey(HttpExchange exchange, Map<String, String> queryMap, String key) {
-        if(queryMap.containsKey("value")) {
-            Long id = Long.valueOf(queryMap.get("value"));
-
-            List<Expense> expenses = getAllExpensesByForeignKey(key, id);
-            sendJsonResponse(exchange, expenses, 200);
-        } else {
-            sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
-        }
-    }
-
-    private List<Expense> getAllExpensesByForeignKey(String key, Long id) {
-        return switch (key) {
-            case "project" -> service.findAllExpensesByProjectID(id);
-            case "category" -> service.findAllExpensesByCategoryID(id);
-            case "payment" -> service.findAllExpensesByPaymentMethodID(id);
+    @Override
+    protected List<Expense> getAllEntitiesByAttribute(String attribute, String value) {
+        return switch (attribute) {
+            case "project_id" -> service.findAllExpensesByProjectID(Long.valueOf(value));
+            case "category_id" -> service.findAllExpensesByCategoryID(Long.valueOf(value));
+            case "payment_id" -> service.findAllExpensesByPaymentMethodID(Long.valueOf(value));
+            case "transaction_date" -> {
+                LocalDate date = LocalDate.parse(value);
+                yield service.findAllExpensesByTransactionDate(date);
+            }
             default -> new ArrayList<>();
         };
     }
 
-    private void handleFindAllByAmount(HttpExchange exchange, Map<String, String> queryMap) {
+    @Override
+    protected List<Expense> getAllEntitiesGreaterThan(BigDecimal value) {
+        return service.findAllExpensesByAmountGreaterThen(value);
     }
 
-    private void handleFindAllByTransactionDate(HttpExchange exchange, Map<String, String> queryMap) {
+    @Override
+    protected List<Expense> getAllEntitiesLessThan(BigDecimal value) {
+        return service.findAllExpensesByAmountLessThen(value);
     }
 }

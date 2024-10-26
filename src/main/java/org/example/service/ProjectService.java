@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ProjectService extends ExpenseService {
-    private CrudRepository<Project> projectRepository;
+    private final CrudRepository<Project> projectRepository;
 
     public ProjectService(Connection connection) {
         super(connection);

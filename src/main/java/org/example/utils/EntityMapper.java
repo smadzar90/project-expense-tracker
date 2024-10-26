@@ -10,6 +10,7 @@ import org.example.repository.*;
 import java.time.ZoneId;
 
 public class EntityMapper {
+
     public static Project mapToProject(ResultSet rs) {
         try {
             Project project = new Project(

@@ -14,7 +14,6 @@ public class PETracker extends Connector {
     private final CategoryService categoryService;
     private final PaymentService paymentService;
 
-
     public PETracker() {
         super();
         projectService = new ProjectService(this.connection);

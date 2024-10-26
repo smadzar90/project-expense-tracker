@@ -31,18 +31,4 @@ public class AnnotationUtils<T> {
                     }
                 });
     }
-
-    protected Long getIdUsingAnnotations(T entity) {
-        return Arrays.stream(entity.getClass().getDeclaredFields())
-                .filter(f ->  f.isAnnotationPresent(Id.class))
-                .findFirst()
-                .map(f -> {
-                    try {
-                        f.setAccessible(true);
-                        return (Long) f.get(entity);
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException("Error occurred while accessing the field: " + e.getMessage());
-                    }
-                }).orElse(null);
-    }
 }

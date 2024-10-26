@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.*;
 
 public abstract class CrudController<T> extends BaseResponseHandler implements HttpHandler {
@@ -74,6 +75,7 @@ public abstract class CrudController<T> extends BaseResponseHandler implements H
 
             if(query == null) {
                 List<T> entities = findAllEntities();
+
                 sendJsonResponse(exchange, entities, 200);
             } else {
                 handleFindAllByAttribute(exchange, queryToMap(query));
@@ -153,6 +155,41 @@ public abstract class CrudController<T> extends BaseResponseHandler implements H
         }
     }
 
+    protected void handleFindAllByAttribute(HttpExchange exchange, Map<String, String> queryMap, String attribute) {
+        try {
+            if(queryMap.containsKey("value")) {
+                String value = queryMap.get("value");
+
+                List<T> entities = getAllEntitiesByAttribute(attribute, value);
+                sendJsonResponse(exchange, entities, 200);
+            } else {
+                sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
+            }
+        } catch (Exception e) {
+            handleException(e, exchange);
+        }
+    }
+
+    protected void handleFindAllByAttributeGreaterOrLessThan(HttpExchange exchange, Map<String, String> queryMap) {
+        try {
+            if(queryMap.containsKey("greater_than")) {
+                BigDecimal value = new BigDecimal(queryMap.get("greater_than"));
+                List<T> entities = getAllEntitiesGreaterThan(value);
+                sendJsonResponse(exchange, entities, 200);
+
+            } else if(queryMap.containsKey("less_than")) {
+                BigDecimal value = new BigDecimal(queryMap.get("less_than"));
+                List<T> entities = getAllEntitiesLessThan(value);
+                sendJsonResponse(exchange, entities, 200);
+
+            } else {
+                sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
+            }
+        } catch (Exception e) {
+            handleException(e, exchange);
+        }
+    }
+
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
@@ -209,7 +246,7 @@ public abstract class CrudController<T> extends BaseResponseHandler implements H
             String[] entry = param.split("=");
             if (entry.length > 1) {
                 result.put(entry[0], entry[1]);
-            }else{
+            } else{
                 result.put(entry[0], "");
             }
         }
@@ -228,5 +265,8 @@ public abstract class CrudController<T> extends BaseResponseHandler implements H
     protected abstract void deleteEntity(Long id);
     protected abstract void deleteAllEntities(Set<Long> ids);
     protected abstract void handleFindAllByAttribute(HttpExchange exchange, Map<String, String> queryMap);
+    protected abstract List<T> getAllEntitiesByAttribute(String attribute, String value);
+    protected abstract List<T> getAllEntitiesGreaterThan(BigDecimal value);
+    protected abstract List<T> getAllEntitiesLessThan(BigDecimal value);
 
 }

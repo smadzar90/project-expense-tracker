@@ -13,7 +13,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -41,9 +40,7 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
     void canSaveAllProjects() {
         Set<Project> projects1 = getTestProjects();
         List<Project> projects2 = projectRepository.saveAll(projects1);
-        projects2.forEach(p -> {
-            assertThat(p.getId()).isNotNull();
-        });
+        projects2.forEach(p -> assertThat(p.getId()).isNotNull());
     }
 
     @Test

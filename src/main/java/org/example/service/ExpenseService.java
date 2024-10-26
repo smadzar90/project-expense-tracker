@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class ExpenseService extends PaymentService {
-    private CrudRepository<Expense> expenseRepository;
+    private final CrudRepository<Expense> expenseRepository;
 
     public ExpenseService(Connection connection) {
         super(connection);

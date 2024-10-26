@@ -72,15 +72,6 @@ public class ProjectRepository extends CrudRepository<Project> {
         }
     }
 
-    private void setProjectCompletionStatus(Project project) {
-        project.setCompleted(project.getCompleted() != null && project.getCompleted());
-    }
-
-    private void saveProjectExpenses(Project project) {
-        project.getExpenses().forEach(e -> e.setProject(project));
-        expenseRepository.saveAll(project.getExpenses());
-    }
-
     @Override
     protected String getFindSQL() {
         return FIND_BY_ID_SQL;
@@ -119,5 +110,14 @@ public class ProjectRepository extends CrudRepository<Project> {
     @Override
     protected String getDeleteSQL() {
         return DELETE_SQL;
+    }
+
+    private void setProjectCompletionStatus(Project project) {
+        project.setCompleted(project.getCompleted() != null && project.getCompleted());
+    }
+
+    private void saveProjectExpenses(Project project) {
+        project.getExpenses().forEach(e -> e.setProject(project));
+        expenseRepository.saveAll(project.getExpenses());
     }
 }

@@ -11,10 +11,7 @@ import org.example.service.ProjectService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class ProjectController extends CrudController<Project> {
     private final ProjectService service;
@@ -40,10 +37,6 @@ public class ProjectController extends CrudController<Project> {
 
         expenses.forEach(expense -> project.addExpense(parseExpenseFromJson(expense)));
         return project;
-    }
-
-    private Expense parseExpenseFromJson(JsonElement e) {
-        return gson.fromJson(e, Expense.class);
     }
 
     @Override
@@ -92,9 +85,9 @@ public class ProjectController extends CrudController<Project> {
             String attribute = queryMap.get("attribute");
 
             switch (attribute) {
-                case "name" -> handleFindAllByName(exchange, queryMap);
-                case "start_date" -> handleFindAllByStartDate(exchange, queryMap);
-                case "budget" -> handleFindAllByBudget(exchange, queryMap);
+                case "name" -> handleFindAllByAttribute(exchange, queryMap, "name");
+                case "start_date" -> handleFindAllByAttribute(exchange, queryMap, "start_date");
+                case "budget" -> handleFindAllByAttributeGreaterOrLessThan(exchange, queryMap);
                 default -> sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
             }
         } else {
@@ -102,48 +95,29 @@ public class ProjectController extends CrudController<Project> {
         }
     }
 
-    private void handleFindAllByName(HttpExchange exchange, Map<String, String> queryMap) {
-        if(queryMap.containsKey("value")) {
-            String value = queryMap.get("value");
-            List<Project> projectsByName = service.findAllProjectsByName(value);
-            sendJsonResponse(exchange, projectsByName, 200);
-        } else {
-            sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
-        }
+    @Override
+    protected List<Project> getAllEntitiesByAttribute(String attribute, String value) {
+        return switch (attribute) {
+            case "name" -> service.findAllProjectsByName(value);
+            case "start_date" -> {
+                LocalDate date = LocalDate.parse(value);
+                yield service.findAllProjectsByStartDate(date);
+            }
+            default -> new ArrayList<>();
+        };
     }
 
-    private void handleFindAllByStartDate(HttpExchange exchange, Map<String, String> queryMap) {
-        if(queryMap.containsKey("value")) {
-            String value = queryMap.get("value");
-            LocalDate date = LocalDate.parse(value);
-            List<Project> projectsByStartDate = service.findAllProjectsByStartDate(date);
-            sendJsonResponse(exchange, projectsByStartDate, 200);
-        } else {
-            sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
-        }
+    @Override
+    protected List<Project> getAllEntitiesGreaterThan(BigDecimal value) {
+        return service.findAllProjectsByBudgetGreaterThen(value);
     }
 
-    private void handleFindAllByBudget(HttpExchange exchange, Map<String, String> queryMap) {
-        if(queryMap.containsKey("greater_than")) {
-            BigDecimal value = new BigDecimal(queryMap.get("greater_than"));
-            handleFindByAllBudgetGreaterThan(exchange, value);
-
-        } else if(queryMap.containsKey("less_than")) {
-            BigDecimal value = new BigDecimal(queryMap.get("less_than"));
-            handleFindByAllBudgetLessThan(exchange, value);
-
-        } else {
-            sendErrorResponse(exchange, ERR_QUERY_PARAMS_400, 400);
-        }
+    @Override
+    protected List<Project> getAllEntitiesLessThan(BigDecimal value) {
+        return service.findAllProjectsByBudgetLessThan(value);
     }
 
-    private void handleFindByAllBudgetGreaterThan(HttpExchange exchange, BigDecimal value) {
-        List<Project> projectsByName = service.findAllProjectsByBudgetGreaterThen(value);
-        sendJsonResponse(exchange, projectsByName, 200);
-    }
-
-    private void handleFindByAllBudgetLessThan(HttpExchange exchange, BigDecimal value) {
-        List<Project> projectsByName = service.findAllProjectsByBudgetLessThan(value);
-        sendJsonResponse(exchange, projectsByName, 200);
+    private Expense parseExpenseFromJson(JsonElement e) {
+        return gson.fromJson(e, Expense.class);
     }
 }

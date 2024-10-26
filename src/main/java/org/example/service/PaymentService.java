@@ -1,8 +1,6 @@
 package org.example.service;
 
-import org.example.model.Category;
 import org.example.model.PaymentMethod;
-import org.example.repository.CategoryRepository;
 import org.example.repository.PaymentRepository;
 import org.example.repository.base.EntityRepository;
 
