@@ -26,6 +26,37 @@ The Gson library is used for JSON serialization/deserialization, JUnit for testi
   - `GET /api/payment/method/{id}`
   - `GET /api/payment/method/all`
 
+### Project Endpoints
+
+  - `POST /api/project/save`
+  - `POST /api/project/save/all`
+  - `GET /api/project/find/{id}`
+  - `GET /api/project/find/all`
+  - `GET /api/project/find?attribute=name&value={name}`
+  - `GET /api/project/find?attribute=start_date&value={start_date}`
+  - `GET /api/project/find?attribute=budget&greater_than={budget}`
+  - `GET /api/project/find?attribute=budget&less_than={budget}`
+  - `PUT /api/project/update`
+  - `PUT /api/project/update/all`
+  - `DELETE /api/project/delete/{id}`
+  - `DELETE /api/project/delete/all`
+
+### Expense Endpoints
+
+  - `POST /api/expense/save`
+  - `POST /api/expense/save/all`
+  - `GET /api/expense/find/{id}`
+  - `GET /api/expense/find/all`
+  - `GET /api/expense/find?attribute=project_id&value={project_id}`
+  - `GET /api/expense/find?attribute=category_id&value={category_id}`
+  - `GET /api/expense/find?attribute=payment_id&value={payment_id}`
+  - `GET /api/expense/find?attribute=transation_date&value={transation_date}`
+  - `GET /api/expense/find?attribute=amount&greater_than={amount}`
+  - `GET /api/expense/find?attribute=amount&less_than={amount}`
+  - `PUT /api/expense/update`
+  - `PUT /api/expense/update/all`
+  - `DELETE /api/expense/delete/{id}`
+  - `DELETE /api/expense/delete/all`
 
 
 
