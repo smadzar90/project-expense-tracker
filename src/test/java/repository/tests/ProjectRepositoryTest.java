@@ -108,11 +108,9 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
         savedProjects.getLast().setName("New name for p3");
         Set<Project> projectSet = new HashSet<>(savedProjects);
         projectRepository.updateAll(projectSet);
-        savedProjects.forEach(project -> {
-            assertThat(projectRepository.findByID(project.getId()))
-                    .isPresent()
-                    .hasValueSatisfying(p -> assertThat(p.getName()).isEqualTo(project.getName()));
-        });
+        savedProjects.forEach(project -> assertThat(projectRepository.findByID(project.getId()))
+                .isPresent()
+                .hasValueSatisfying(p -> assertThat(p.getName()).isEqualTo(project.getName())));
     }
 
     @Test
@@ -130,9 +128,7 @@ public class ProjectRepositoryTest extends BaseRepositoryTest {
         projectRepository.delete(project.getId());
         assertThat(projectRepository.findByID(savedProject.getId())).isEmpty();
         savedProject.getExpenses().forEach(
-                expense -> {
-                    assertThat(expenseRepository.findByID(expense.getId())).isEmpty();
-                }
+                expense -> assertThat(expenseRepository.findByID(expense.getId())).isEmpty()
         );
     }
 

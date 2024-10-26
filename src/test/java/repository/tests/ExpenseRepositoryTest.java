@@ -50,9 +50,7 @@ public class ExpenseRepositoryTest extends BaseRepositoryTest {
         Expense expense = expenseRepository.save(getExpense(30000));
         assertThat(expenseRepository.findByID(expense.getId()))
                 .isPresent()
-                .hasValueSatisfying(e -> {
-                    assertThat(e.getAmount()).isEqualTo(new BigDecimal("30000.00"));
-                });
+                .hasValueSatisfying(e -> assertThat(e.getAmount()).isEqualTo(new BigDecimal("30000.00")));
     }
 
     @Test
