@@ -19,12 +19,10 @@ The Gson library is used for JSON serialization/deserialization, JUnit for testi
 ### Category Endpoints
 
 - **Retrieve a Specific Category**
-  - **Request:** `GET /api/category/{id}`
-  - **Description:** Fetches the details of a specific category identified by the `{id}` parameter.
+  - `GET /api/category/{id}`
 
 - **Retrieve All Categories**
-  - **Request:** `GET /api/category/all`
-  - **Description:** Retrieves a list of all categories available in the system.
+  - `GET /api/category/all`
 
 ---
 
